@@ -6,7 +6,7 @@ import {
 } from "./errors/error";
 import { ITaskValidated } from "./interfaces/interfaces";
 
-const TASK_STATUS = {
+export const TASK_STATUS = {
   BACKLOG: 'backlog',
   TODO: 'to do',
   DOING: 'doing',

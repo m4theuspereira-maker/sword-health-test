@@ -9,7 +9,7 @@ export const SUMARY_EMPTY_ERROR = "SUMARY_EMPTY_ERROR";
 export const EMPTY_TITLE_ERROR = "EMPTY_TITLE_ERROR";
 export const USER_ALREADY_FOUND_ERROR = "USER_ALREADY_FOUND_ERROR";
 export const USER_NOT_FOUND_ERROR = "USER_ALREADY_FOUND_ERROR";
-
+export const INVALID_STATUS_ERROR = "INVALID_STATUS_ERROR";
 export const TASK_NOT_FOUND_ERROR = "TASK_NOT_FOUND_ERROR";
 
 export const invalidRoleError = (): IDomainError => {
@@ -46,4 +46,8 @@ export const userNotFoundError = (): IDomainError => {
 
 export const taskNotFoundError = (): IDomainError => {
   return { isValid: false, error: TASK_NOT_FOUND_ERROR };
+};
+
+export const invalidStatusError = (): IDomainError => {
+  return { isValid: false, error: INVALID_STATUS_ERROR };
 };

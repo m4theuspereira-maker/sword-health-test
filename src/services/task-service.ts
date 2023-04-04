@@ -1,5 +1,9 @@
-import { taskNotFoundError, userNotFoundError } from "../domains/errors/error";
-import { TaskDomain } from "../domains/task-domain";
+import {
+  invalidStatusError,
+  taskNotFoundError,
+  userNotFoundError
+} from "../domains/errors/error";
+import { TASK_STATUS, TaskDomain } from "../domains/task-domain";
 import { InternalServerErrorExpection } from "../infra/errors/errors";
 import { ICreateTaskDto } from "../infra/repositories/interfaces/repository-interfaces";
 import { TaskRepository } from "../infra/repositories/task-repository";
@@ -49,6 +53,13 @@ export class TaskService {
 
       if (!userFound) {
         return userNotFoundError();
+      }
+
+      if (
+        updateTaskDto.status &&
+        Object.keys(TASK_STATUS).includes(updateTaskDto.status!)
+      ) {
+        return invalidStatusError();
       }
 
       const taskFound = await this.taskRepository.findById(
