@@ -1,27 +1,79 @@
-import { client } from "../../src/config/client/client";
+import { PrismaClient } from "@prisma/client";
 import { TaskRepository } from "../../src/repositories/task-repository";
+import { createMockContext } from "../config/client";
+import MockDate from "mockdate";
 
 describe("TaskRepository", () => {
-  it("should save a new task", async () => {
-    const repo = new TaskRepository(client);
+  let prismaClient: PrismaClient;
+  let taskRepository: TaskRepository;
+  let taskSpy: any;
 
-    // const taskCreated = await repo.create({
-    //   sumary: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    // `,
-    //   userId: 11
-    // });
-
-    // console.log(taskCreated);
-
-    expect(1).toBe(1);
+  beforeEach(() => {
+    prismaClient = createMockContext().prisma;
+    MockDate.set(new Date());
   });
 
-  it(`should return a task`, async () => {
-    const repo = new TaskRepository(client);
+  describe("create", () => {
+    it("should call client with correct params to create", async () => {
+      taskSpy = jest
+        .spyOn(prismaClient.task, "create")
+        .mockResolvedValueOnce(null as any);
 
-    const task = await repo.findById(31);
+      taskRepository = new TaskRepository(prismaClient);
 
-    console.log(task);
-    expect(1 + 1).toBe(2);
+      await taskRepository.create({ sumary: "lorem ipsum", userId: 4 });
+
+      expect(taskSpy).toHaveBeenCalledWith({
+        data: {
+          sumary: expect.any(String),
+          userId: expect.any(Number),
+          deletedAt: null
+        }
+      });
+    });
+  });
+
+  describe("findById", () => {
+    it("should call findFirst with correct params", async () => {
+      taskSpy = jest
+        .spyOn(prismaClient.task, "findFirst")
+        .mockResolvedValueOnce(null as any);
+
+      taskRepository = new TaskRepository(prismaClient);
+
+      await taskRepository.findById(4);
+
+      expect(taskSpy).toHaveBeenCalledWith({
+        where: { id: expect.any(Number), deletedAt: null },
+        select: {
+          sumary: true,
+          userId: true,
+          createdAt: true,
+          user: true,
+          updatedAt: true,
+          deletedAt: true
+        }
+      });
+    });
+  });
+
+  describe("update", () => {
+    it("should call client update correct params", async () => {
+      taskSpy = jest
+        .spyOn(prismaClient.task, "update")
+        .mockResolvedValueOnce(null as any);
+
+      taskRepository = new TaskRepository(prismaClient);
+
+      await taskRepository.update(4, { sumary: "cavalo" });
+
+      expect(taskSpy).toHaveBeenCalledWith({
+        where: { id: expect.any(Number) },
+        data: {
+          sumary: "cavalo",
+          updatedAt: new Date()
+        }
+      });
+    });
   });
 });

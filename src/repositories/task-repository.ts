@@ -34,8 +34,8 @@ export class TaskRepository implements IRepository {
 
   async findById(id: number) {
     try {
-      const taskFound = await this.client.task.findFirst({
-        where: { id },
+      return this.client.task.findFirst({
+        where: { id, deletedAt: null },
         select: {
           sumary: true,
           userId: true,
@@ -45,12 +45,6 @@ export class TaskRepository implements IRepository {
           deletedAt: true
         }
       });
-
-      if (taskFound?.deletedAt) {
-        return null;
-      }
-
-      return taskFound;
     } catch (error) {
       throw new InternalServerErrorExpection();
     }

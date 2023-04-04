@@ -1,15 +1,14 @@
 import { PrismaClient } from "@prisma/client";
-import { ICreateUserDto, IRepository } from "./interfaces/repository-interfaces";
+import {
+  ICreateUserDto,
+  IRepository
+} from "./interfaces/repository-interfaces";
 import { InternalServerErrorExpection } from "../errors/errors";
 
 export class UsersRepository implements IRepository {
   constructor(private readonly client: PrismaClient) {}
 
-  async create({
-    username,
-    password,
-    role
-  }: ICreateUserDto) {
+  async create({ username, password, role }: ICreateUserDto) {
     try {
       return this.client.user.create({
         data: { username, password, role, deletedAt: null }
@@ -35,8 +34,8 @@ export class UsersRepository implements IRepository {
 
   async findById(id: number) {
     try {
-      const userFound = await this.client.user.findFirst({
-        where: { id },
+      return this.client.user.findFirst({
+        where: { id, deletedAt: null },
         select: {
           username: true,
           password: true,
@@ -47,12 +46,6 @@ export class UsersRepository implements IRepository {
           createdAt: true
         }
       });
-
-      if (userFound?.deletedAt) {
-        return null;
-      }
-
-      return userFound;
     } catch (error) {
       throw new InternalServerErrorExpection();
     }

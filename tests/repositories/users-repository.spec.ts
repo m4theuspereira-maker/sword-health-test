@@ -1,27 +1,86 @@
+import { PrismaClient } from "@prisma/client";
 import { client } from "../../src/config/client/client";
 import { UsersRepository } from "../../src/repositories/user-repository";
+import { createMockContext } from "../config/client";
+import MockDate from "mockdate";
 
 describe("UsersRepository", () => {
-  it("should create an user", async () => {
-    const repo = new UsersRepository(client);
+  let prismaClient: PrismaClient;
+  let userRepository: UsersRepository;
+  let userSpy: any;
 
-    // const user = await repo.create({
-    //   username: `disgraca`,
-    //   password: `1234`,
-    //   role: `admin`
-    // });
-
-    //console.log(user);
-
-    expect(1 + 1).toBe(2);
+  beforeEach(() => {
+    prismaClient = createMockContext().prisma;
+    MockDate.set(new Date());
   });
 
-  it("should find onde task", async () => {
-    const repo = new UsersRepository(client);
+  describe("create", () => {
+    it("should call client with correct params to create", async () => {
+      userSpy = jest
+        .spyOn(prismaClient.user, "create")
+        .mockResolvedValueOnce(null as any);
 
-    const task = await repo.findById(11);
+      userRepository = new UsersRepository(prismaClient);
 
-    console.log(task);
-    expect(1 + 1).toBe(2);
+      await userRepository.create({
+        username: "jubileu",
+        password: "1234",
+        role: "manager"
+      });
+
+      expect(userSpy).toHaveBeenCalledWith({
+        data: {
+          username: expect.any(String),
+          password: expect.any(String),
+          role: expect.any(String),
+          deletedAt: null
+        }
+      });
+    });
+  });
+
+  describe("findById", () => {
+    it("should call find client with correct params", async () => {
+      userSpy = jest
+        .spyOn(prismaClient.user, "findFirst")
+        .mockResolvedValueOnce(null as any);
+
+      userRepository = new UsersRepository(prismaClient);
+
+      await userRepository.findById(4);
+
+      expect(userSpy).toHaveBeenCalledWith({
+        where: { id: 4, deletedAt: null },
+        select: {
+          username: true,
+          password: true,
+          role: true,
+          tasks: true,
+          updatedAt: true,
+          createdAt: true,
+          deletedAt: true
+        }
+      });
+    });
+  });
+
+  describe("update", () => {
+    it("should call update client with correct params", async () => {
+      userSpy = jest
+        .spyOn(prismaClient.user, "update")
+        .mockResolvedValueOnce(null as any);
+
+      userRepository = new UsersRepository(prismaClient);
+
+      await userRepository.update(4, { username: "cavalo" });
+
+      expect(userSpy).toHaveBeenCalledWith({
+        where: { id: expect.any(Number) },
+        data: {
+          username: "cavalo",
+          updatedAt: new Date()
+        }
+      });
+    });
   });
 });
