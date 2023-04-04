@@ -2,7 +2,7 @@ import {
   invalidRoleError,
   passwordDifferentOfRepeatPasswordError
 } from "./errors/error";
-import { ICreateUserDto } from "./interfaces/interfaces";
+import { ICreateUserDto, IUserValidated } from "./interfaces/interfaces";
 
 export const USER_ROLES = {
   TECH: "technician",
@@ -10,7 +10,7 @@ export const USER_ROLES = {
 };
 
 export class UserDomain {
-  validateUser(user: ICreateUserDto) {
+  validateUser(user: ICreateUserDto): IUserValidated {
     if (Object.keys(USER_ROLES).includes(user.role)) {
       return invalidRoleError();
     }
@@ -20,9 +20,12 @@ export class UserDomain {
     }
 
     return {
-      username: user.username.toLocaleLowerCase(),
-      password: user.password,
-      role: user.role
+      isValid: true,
+      user: {
+        username: user.username.toLocaleLowerCase(),
+        password: user.password,
+        role: user.role
+      }
     };
   }
 }

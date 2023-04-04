@@ -9,3 +9,9 @@ export interface IDomainError {
   isValid: boolean;
   error: string;
 }
+
+export interface IUserValidated {
+  isValid: boolean;
+  user?: ICreateUserDto;
+  error?: string;
+}

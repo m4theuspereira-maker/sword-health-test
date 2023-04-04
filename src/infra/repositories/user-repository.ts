@@ -50,4 +50,8 @@ export class UsersRepository implements IRepository {
       throw new InternalServerErrorExpection();
     }
   }
+
+  async find(input: any) {
+    return this.client.user.findFirst({ where: { ...input } });
+  }
 }
