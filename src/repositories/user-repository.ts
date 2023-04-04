@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { IRepository } from "./interfaces/repository-interfaces";
+import { ICreateUserDto, IRepository } from "./interfaces/repository-interfaces";
 import { InternalServerErrorExpection } from "../errors/errors";
 
 export class UsersRepository implements IRepository {
@@ -9,11 +9,7 @@ export class UsersRepository implements IRepository {
     username,
     password,
     role
-  }: {
-    username: string;
-    password: string;
-    role: string;
-  }) {
+  }: ICreateUserDto) {
     try {
       return this.client.user.create({
         data: { username, password, role, deletedAt: null }

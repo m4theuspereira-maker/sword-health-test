@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import {
-  ICreateUserDto,
+  ICreateTaskDto,
   IRepository
 } from "./interfaces/repository-interfaces";
 import { InternalServerErrorExpection } from "../errors/errors";
@@ -8,7 +8,7 @@ import { InternalServerErrorExpection } from "../errors/errors";
 export class TaskRepository implements IRepository {
   constructor(private readonly client: PrismaClient) {}
 
-  async create({ sumary, userId }: ICreateUserDto) {
+  async create({ sumary, userId }: ICreateTaskDto) {
     try {
       return this.client.task.create({
         data: { sumary, userId, deletedAt: null }

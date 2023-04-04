@@ -6,7 +6,13 @@ export interface IRepository {
   findById(id: number): Promise<any>;
 }
 
+export interface ICreateTaskDto {
+  sumary: string;
+  userId: number;
+}
 
 export interface ICreateUserDto {
-  sumary: string; userId: number
+  username: string;
+  password: string;
+  role: string;
 }
