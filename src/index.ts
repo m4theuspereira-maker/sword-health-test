@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { PORT } from "./config/environment-consts";
-import { RabbitmqServer } from "./rabbitmq-server";
+import { RabbitmqServer } from "./infra/message-broker/rabbitmq-server";
 
 const app = express();
 app.use(cors());
