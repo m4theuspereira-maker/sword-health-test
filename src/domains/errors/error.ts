@@ -21,7 +21,7 @@ export const tooManyCharactersError = (): IDomainError => {
 };
 
 export const passwordDifferentOfRepeatPasswordError = (): IDomainError => {
-  return { isValid: false, error: TOO_MANY_CHARACTERS_IN_SUMARY };
+  return { isValid: false, error: PASSWORD_DIFFERENT_OF_REPEAT_PASSWORD };
 };
 
 export const tooLowerCharactersError = () => {
