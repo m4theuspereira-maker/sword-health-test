@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { client } from "../../src/config/client/client";
-import { UsersRepository } from "../../src/repositories/user-repository";
-import { createMockContext } from "../config/client";
+import { UsersRepository } from "../../../src/infra/repositories/user-repository";
+import { createMockContext } from "../../config/client";
 import MockDate from "mockdate";
 
 describe("UsersRepository", () => {

@@ -49,4 +49,10 @@ export class TaskRepository implements IRepository {
       throw new InternalServerErrorExpection();
     }
   }
+
+  async findMany() {
+    const tasksFound = await this.client.task.findMany();
+
+    return tasksFound.filter((task) => !task.deletedAt);
+  }
 }
