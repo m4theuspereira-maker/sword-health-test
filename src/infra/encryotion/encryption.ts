@@ -1,9 +1,9 @@
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
-import { APP_SECRET } from "../config/environment-consts";
-import { InternalServerErrorExpection } from "../infra/errors/errors";
+import { APP_SECRET } from "../../config/environment-consts";
+import { InternalServerErrorExpection } from "../errors/errors";
 
-export class EncryptionServices {
+export class Encryption{
   async hashPassword(password: string): Promise<string> {
     try {
       return await bcrypt.hash(password, 8);

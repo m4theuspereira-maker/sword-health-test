@@ -2,13 +2,13 @@ import { ICreateUserDto } from "../domains/interfaces/interfaces";
 import { UserDomain } from "../domains/user-domain";
 import { InternalServerErrorExpection } from "../infra/errors/errors";
 import { UsersRepository } from "../infra/repositories/user-repository";
-import { EncryptionServices } from "./encryption-service";
+import { Encryption } from "../infra/encryotion/encryption";
 
 export class UserServices {
   constructor(
     private readonly userRepository: UsersRepository,
     private readonly userDomain: UserDomain,
-    private readonly encryptionService: EncryptionServices
+    private readonly encryptionService: Encryption
   ) {}
 
   async createUser(user: ICreateUserDto) {
