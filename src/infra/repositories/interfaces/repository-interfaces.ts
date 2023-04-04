@@ -14,5 +14,6 @@ export interface ICreateTaskDto {
 export interface ICreateUserDto {
   username: string;
   password: string;
+  repeatPassword?: string;
   role: string;
 }
