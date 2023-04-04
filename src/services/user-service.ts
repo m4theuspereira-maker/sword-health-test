@@ -1,4 +1,7 @@
-import { ICreateUserDto } from "../domains/interfaces/interfaces";
+import {
+  ICreateUserDto,
+  IUserValidated
+} from "../domains/interfaces/interfaces";
 import { UserDomain } from "../domains/user-domain";
 import { InternalServerErrorExpection } from "../infra/errors/errors";
 import { UsersRepository } from "../infra/repositories/user-repository";
@@ -12,7 +15,9 @@ export class UserService {
     private readonly encryptionService: Encryption
   ) {}
 
-  async createUser(user: ICreateUserDto) {
+  async createUser(
+    user: ICreateUserDto
+  ): Promise<ICreateUserDto | IUserValidated> {
     try {
       const userValidated = this.userDomain.validateUser(user);
 
