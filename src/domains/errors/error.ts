@@ -4,6 +4,13 @@ export const INVALID_ROLE = "INVALID_ROLE";
 export const TOO_MANY_CHARACTERS_IN_SUMARY = "TOO_MANY_CHARACTERS_IN_SUMARY";
 export const PASSWORD_DIFFERENT_OF_REPEAT_PASSWORD =
   "PASSWORD_DIFFERENT_OF_REPEAT_PASSWORD";
+export const TOO_LOWER_CHARACTERS = "TOO_LOWER_CHARACTERS";
+export const SUMARY_EMPTY_ERROR = "SUMARY_EMPTY_ERROR";
+export const EMPTY_TITLE_ERROR = "EMPTY_TITLE_ERROR";
+export const USER_ALREADY_FOUND_ERROR = "USER_ALREADY_FOUND_ERROR";
+export const USER_NOT_FOUND_ERROR = "USER_ALREADY_FOUND_ERROR";
+
+export const TASK_NOT_FOUND_ERROR = "TASK_NOT_FOUND_ERROR";
 
 export const invalidRoleError = (): IDomainError => {
   return { isValid: false, error: INVALID_ROLE };
@@ -17,3 +24,26 @@ export const passwordDifferentOfRepeatPasswordError = (): IDomainError => {
   return { isValid: false, error: TOO_MANY_CHARACTERS_IN_SUMARY };
 };
 
+export const tooLowerCharactersError = () => {
+  return { isValid: false, error: TOO_LOWER_CHARACTERS };
+};
+
+export const sumaryEmptyError = () => {
+  return { isValid: false, error: SUMARY_EMPTY_ERROR };
+};
+
+export const titleEmptyError = () => {
+  return { isValid: false, error: EMPTY_TITLE_ERROR };
+};
+
+export const userAlreadyFoundError = (): IDomainError => {
+  return { isValid: false, error: USER_ALREADY_FOUND_ERROR };
+};
+
+export const userNotFoundError = (): IDomainError => {
+  return { isValid: false, error: USER_NOT_FOUND_ERROR };
+};
+
+export const taskNotFoundError = (): IDomainError => {
+  return { isValid: false, error: TASK_NOT_FOUND_ERROR };
+};

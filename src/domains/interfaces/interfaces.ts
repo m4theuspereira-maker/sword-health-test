@@ -1,3 +1,5 @@
+import { ICreateTaskDto } from "../../infra/repositories/interfaces/repository-interfaces";
+
 export interface ICreateUserDto {
   username: string;
   password: string;
@@ -13,5 +15,11 @@ export interface IDomainError {
 export interface IUserValidated {
   isValid: boolean;
   user?: ICreateUserDto;
+  error?: string;
+}
+
+export interface ITaskValidated {
+  isValid: boolean;
+  task?: ICreateTaskDto;
   error?: string;
 }

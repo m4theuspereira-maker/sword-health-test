@@ -7,8 +7,10 @@ export interface IRepository {
 }
 
 export interface ICreateTaskDto {
+  title: string;
   sumary: string;
   userId: number;
+  status?: string;
 }
 
 export interface ICreateUserDto {

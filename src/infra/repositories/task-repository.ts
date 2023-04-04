@@ -8,10 +8,10 @@ import { InternalServerErrorExpection } from "../errors/errors";
 export class TaskRepository implements IRepository {
   constructor(private readonly client: PrismaClient) {}
 
-  async create({ sumary, userId }: ICreateTaskDto) {
+  async create({ sumary, userId, title, status }: ICreateTaskDto) {
     try {
       return this.client.task.create({
-        data: { sumary, userId, deletedAt: null }
+        data: { sumary, userId, deletedAt: null, title, status: status! }
       });
     } catch (error) {
       throw new InternalServerErrorExpection();

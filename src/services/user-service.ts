@@ -3,8 +3,9 @@ import { UserDomain } from "../domains/user-domain";
 import { InternalServerErrorExpection } from "../infra/errors/errors";
 import { UsersRepository } from "../infra/repositories/user-repository";
 import { Encryption } from "../infra/encryotion/encryption";
+import { userAlreadyFoundError } from "../domains/errors/error";
 
-export class UserServices {
+export class UserService {
   constructor(
     private readonly userRepository: UsersRepository,
     private readonly userDomain: UserDomain,
@@ -20,6 +21,10 @@ export class UserServices {
       }
 
       const { username, password, role } = userValidated.user!;
+
+      if ((await this.userRepository.countByUsername(username)) > 0) {
+        return userAlreadyFoundError();
+      }
 
       const passwordHashed = await this.encryptionService.hashPassword(
         password

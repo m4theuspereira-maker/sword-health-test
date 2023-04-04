@@ -21,10 +21,17 @@ describe("TaskRepository", () => {
 
       taskRepository = new TaskRepository(prismaClient);
 
-      await taskRepository.create({ sumary: "lorem ipsum", userId: 4 });
+      await taskRepository.create({
+        sumary: "lorem ipsum",
+        userId: 4,
+        title: `socorro`,
+        status: "backlog"
+      });
 
       expect(taskSpy).toHaveBeenCalledWith({
         data: {
+          status: "backlog",
+          title: expect.any(String),
           sumary: expect.any(String),
           userId: expect.any(Number),
           deletedAt: null

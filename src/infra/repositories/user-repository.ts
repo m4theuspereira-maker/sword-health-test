@@ -54,4 +54,8 @@ export class UsersRepository implements IRepository {
   async find(input: any) {
     return this.client.user.findFirst({ where: { ...input } });
   }
+
+  async countByUsername(username: string) {
+    return this.client.user.count({ where: { username } });
+  }
 }
