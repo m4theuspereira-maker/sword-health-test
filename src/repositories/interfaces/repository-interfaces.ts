@@ -5,3 +5,8 @@ export interface IRepository {
 
   findById(id: number): Promise<any>;
 }
+
+
+export interface ICreateUserDto {
+  sumary: string; userId: number
+}
