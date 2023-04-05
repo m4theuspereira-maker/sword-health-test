@@ -8,20 +8,19 @@ import {
   unauthorizedError
 } from "./handlers/handles";
 import { ITaskValidated } from "../domains/interfaces/interfaces";
-import {
-  USER_ALREADY_FOUND_ERROR
-} from "../domains/errors/error";
+import { USER_ALREADY_FOUND_ERROR } from "../domains/errors/error";
 
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   createUser = async (req: Request, res: Response) => {
     try {
-      const { username, password, role } = req.body;
+      const { username, password, repeat_password, role } = req.body;
 
       const userCreated = (await this.userService.createUser({
         username,
         password,
+        repeatPassword: repeat_password,
         role
       })) as ITaskValidated;
 
@@ -29,7 +28,7 @@ export class UserController {
         return conflictError(res, USER_ALREADY_FOUND_ERROR);
       }
 
-      if (!userCreated.isValid) {
+      if (userCreated.isValid === false) {
         return badrequestError(res, userCreated.error);
       }
 
@@ -39,15 +38,11 @@ export class UserController {
     }
   };
 
-
   login = async (req: Request, res: Response) => {
     try {
       const { username, password } = req.body;
 
-      const userLogged = await this.userService.login(
-        username,
-        password
-      );
+      const userLogged = await this.userService.login(username, password);
 
       if (!userLogged) {
         return unauthorizedError(res, "username or password invalid");

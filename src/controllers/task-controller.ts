@@ -25,7 +25,7 @@ export class TaskController {
         userId
       })) as ITaskValidated;
 
-      if (!taskCreated.isValid) {
+      if (taskCreated.isValid) {
         return badrequestError(res, taskCreated.error);
       }
 
@@ -54,7 +54,7 @@ export class TaskController {
         return notFoundError(res, TASK_NOT_FOUND_ERROR);
       }
 
-      if (!taskUpdated.isValid) {
+      if (taskUpdated.isValid) {
         return badrequestError(res, taskUpdated.error);
       }
 
@@ -66,9 +66,12 @@ export class TaskController {
 
   deleteTask = async (req: Request, res: Response) => {
     try {
-      const { taskId } = req.params;
+      const { taskId, userId } = req.params;
 
-      const taskDeleted = await this.taskService.deleteTask(Number(taskId));
+      const taskDeleted = await this.taskService.deleteTask(
+        Number(taskId),
+        Number(userId)
+      );
 
       if (!taskDeleted) {
         return notFoundError(res, USER_NOT_FOUND_ERROR);
@@ -84,13 +87,32 @@ export class TaskController {
     try {
       const { page } = req.query;
 
-      const pageValidated = page || 0;
+      const pageValidated = page ? Number(page) < 1 : 1;
 
       const tasksFound = await this.taskService.findAllTasks(
         Number(pageValidated)
       );
 
       return ok(res, tasksFound);
+    } catch (error) {
+      return serverError(res, error);
+    }
+  };
+
+  findTask = async (req: Request, res: Response) => {
+    try {
+      const { taskId, userId } = req.params;
+
+      const taskFound = (await this.taskService.findTask(
+        Number(taskId),
+        Number(userId)
+      )) as ITaskValidated;
+
+      if (!taskFound || taskFound.isValid!) {
+        return notFoundError(res, TASK_NOT_FOUND_ERROR);
+      }
+
+      ok(res, taskFound);
     } catch (error) {
       return serverError(res, error);
     }

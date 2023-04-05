@@ -52,10 +52,19 @@ export class UsersRepository implements IRepository {
   }
 
   async find(input: any) {
-    return this.client.user.findFirst({ where: { ...input } });
+    try {
+      return this.client.user.findFirst({ where: { ...input } });
+    } catch (error) {
+      throw new InternalServerErrorExpection();
+    }
   }
 
   async countByUsername(username: string) {
-    return this.client.user.count({ where: { username } });
+    try {
+      return this.client.user.count({ where: { username } });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorExpection();
+    }
   }
 }

@@ -32,11 +32,12 @@ export class TaskRepository implements IRepository {
     }
   }
 
-  async findById(id: number) {
+  async findById(id: number, userId: number) {
     try {
       return this.client.task.findFirst({
-        where: { id, deletedAt: null },
+        where: { id, userId, deletedAt: null },
         select: {
+          id:true,
           sumary: true,
           userId: true,
           createdAt: true,

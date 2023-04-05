@@ -2,9 +2,11 @@ import express from "express";
 import cors from "cors";
 import { PORT } from "./config/environment-consts";
 import { RabbitmqServer } from "./infra/message-broker/rabbitmq-server";
+import { routes } from "./routes";
 
 const app = express();
 app.use(cors());
+app.use(routes);
 
 const consumer = async () => {
   const server = new RabbitmqServer("amqp://admin:admin@localhost:5672");

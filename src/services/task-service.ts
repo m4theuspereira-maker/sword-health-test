@@ -4,7 +4,11 @@ import {
   taskNotFoundError,
   userNotFoundError
 } from "../domains/errors/error";
-import { TASK_STATUS, TaskDomain } from "../domains/task-domain";
+import {
+  TASK_STATUS,
+  TASK_STATUS_ARRAY,
+  TaskDomain
+} from "../domains/task-domain";
 import { InternalServerErrorExpection } from "../infra/errors/errors";
 import { ICreateTaskDto } from "../infra/repositories/interfaces/repository-interfaces";
 import { TaskRepository } from "../infra/repositories/task-repository";
@@ -58,13 +62,14 @@ export class TaskService {
 
       if (
         updateTaskDto.status &&
-        Object.keys(TASK_STATUS).includes(updateTaskDto.status!)
+        !TASK_STATUS_ARRAY.includes(updateTaskDto.status)
       ) {
         return invalidStatusError();
       }
 
       const taskFound = await this.taskRepository.findById(
-        updateTaskDto.taskId
+        updateTaskDto.taskId,
+        updateTaskDto.userId
       );
 
       if (!taskFound) {
@@ -91,7 +96,7 @@ export class TaskService {
         return userNotFoundError();
       }
 
-      return this.taskRepository.findById(taskId);
+      return this.taskRepository.findById(taskId, userId);
     } catch (error) {
       throw new InternalServerErrorExpection();
     }
@@ -99,10 +104,7 @@ export class TaskService {
 
   async findAllTasks(page: number) {
     try {
-
       const pageoffset = (page - 1) * DEFAULT_PAGE_LIMIT;
-
-
 
       return this.taskRepository.findMany(DEFAULT_PAGE_LIMIT, pageoffset);
     } catch (error) {
@@ -110,9 +112,9 @@ export class TaskService {
     }
   }
 
-  async deleteTask(taskId: number) {
+  async deleteTask(taskId: number, userId: number) {
     try {
-      const taskFound = await this.taskRepository.findById(taskId);
+      const taskFound = await this.taskRepository.findById(taskId, userId);
 
       if (!taskFound) {
         return null;

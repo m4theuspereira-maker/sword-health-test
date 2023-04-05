@@ -48,11 +48,16 @@ describe("TaskRepository", () => {
 
       taskRepository = new TaskRepository(prismaClient);
 
-      await taskRepository.findById(4);
+      await taskRepository.findById(4, 5);
 
       expect(taskSpy).toHaveBeenCalledWith({
-        where: { id: expect.any(Number), deletedAt: null },
+        where: {
+          id: expect.any(Number),
+          userId: expect.any(Number),
+          deletedAt: null
+        },
         select: {
+          id: true,
           sumary: true,
           userId: true,
           createdAt: true,

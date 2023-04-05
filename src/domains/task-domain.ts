@@ -7,12 +7,13 @@ import {
 import { ITaskValidated } from "./interfaces/interfaces";
 
 export const TASK_STATUS = {
-  BACKLOG: 'backlog',
-  TODO: 'to do',
-  DOING: 'doing',
-  DONE: 'done'
-}
+  BACKLOG: "backlog",
+  TODO: "to do",
+  DOING: "doing",
+  DONE: "done"
+};
 
+export const TASK_STATUS_ARRAY = ["backlog", "to do", "doing", "done"];
 export class TaskDomain {
   validateTask(task: ICreateTaskDto): ITaskValidated {
     if (!task.title.length!) {

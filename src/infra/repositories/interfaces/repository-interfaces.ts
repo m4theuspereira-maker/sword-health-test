@@ -3,7 +3,7 @@ export interface IRepository {
 
   update(id: number, updatePayload: any): Promise<any>;
 
-  findById(id: number): Promise<any>;
+  findById(id: number, secondId?:number): Promise<any>;
 }
 
 export interface ICreateTaskDto {
