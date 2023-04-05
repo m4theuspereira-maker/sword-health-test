@@ -7,15 +7,17 @@ const app = express();
 app.use(cors());
 
 const consumer = async () => {
-  const server = new RabbitmqServer("amqp://admin:admin@localhost:15672/");
+  const server = new RabbitmqServer("amqp://admin:admin@localhost:5672");
   await server.start();
   console.log("disgraça");
 
-  await server.consume("notifications", (message) =>
-    console.log(message.content.toString())
-  );
+  await server.consume("notifications", (message, context) => {
+    console.log(message);
+    context.success();
+  });
 };
 
+consumer();
 
 const server = app.listen(PORT, () => {
   app.use(express.json());
