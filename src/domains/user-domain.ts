@@ -8,10 +8,11 @@ export const USER_ROLES = {
   TECH: "technician",
   MANAGER: "manager"
 };
+export const USER_ROLES_ARRAY = ["technician", "manager"];
 
 export class UserDomain {
   validateUser(user: ICreateUserDto): IUserValidated {
-    if (Object.keys(USER_ROLES).includes(user.role)) {
+    if (!USER_ROLES_ARRAY.includes(user.role)) {
       return invalidRoleError();
     }
 

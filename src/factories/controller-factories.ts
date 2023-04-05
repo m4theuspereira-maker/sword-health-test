@@ -25,12 +25,12 @@ export function tasksControllerFactory(): TaskController {
   const taskRepository = new TaskRepository(client);
   const userRepository = new UsersRepository(client);
   const taskDomain = new TaskDomain();
-
+  const encryption = new Encryption();
   const taskService = new TaskService(
     taskRepository,
     userRepository,
     taskDomain
   );
 
-  return new TaskController(taskService);
+  return new TaskController(taskService, encryption);
 }

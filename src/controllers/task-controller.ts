@@ -9,20 +9,28 @@ import {
 import { ITaskValidated } from "../domains/interfaces/interfaces";
 import {
   TASK_NOT_FOUND_ERROR,
-  USER_NOT_FOUND_ERROR
+  USER_OR_TASK_NOT_FOUND
 } from "../domains/errors/error";
+import { Encryption } from "../infra/encryotion/encryption";
 
 export class TaskController {
-  constructor(private readonly taskService: TaskService) {}
+  constructor(
+    private readonly taskService: TaskService,
+    private readonly encryption: Encryption
+  ) {}
 
   createTask = async (req: Request, res: Response) => {
     try {
-      const { title, sumary, userId } = req.body;
+      const { title, sumary } = req.body;
+
+      const { id } = this.encryption.verifyEncryptedToken(
+        req.headers.authorization!
+      );
 
       const taskCreated = (await this.taskService.createTask({
         title,
         sumary,
-        userId
+        userId: Number(id)
       })) as ITaskValidated;
 
       if (taskCreated.isValid) {
@@ -37,17 +45,22 @@ export class TaskController {
 
   updateTask = async (req: Request, res: Response) => {
     try {
-      const { userId, taskId } = req.params;
+      const { taskId } = req.params;
+
+      const { id } = this.encryption.verifyEncryptedToken(
+        req.headers.authorization!
+      );
+
       const updatePayload = req.body;
 
       const taskUpdated = (await this.taskService.updateTask({
-        userId: Number(userId),
+        userId: Number(id),
         taskId: Number(taskId),
         ...updatePayload
       })) as ITaskValidated;
 
-      if (taskUpdated.error === USER_NOT_FOUND_ERROR) {
-        return notFoundError(res, USER_NOT_FOUND_ERROR);
+      if (taskUpdated.error === USER_OR_TASK_NOT_FOUND) {
+        return notFoundError(res, USER_OR_TASK_NOT_FOUND);
       }
 
       if (taskUpdated.error === TASK_NOT_FOUND_ERROR) {
@@ -74,7 +87,7 @@ export class TaskController {
       );
 
       if (!taskDeleted) {
-        return notFoundError(res, USER_NOT_FOUND_ERROR);
+        return notFoundError(res, USER_OR_TASK_NOT_FOUND);
       }
 
       return ok(res, taskDeleted);
@@ -101,11 +114,15 @@ export class TaskController {
 
   findTask = async (req: Request, res: Response) => {
     try {
-      const { taskId, userId } = req.params;
+      const { taskId } = req.params;
+
+      const { id } = this.encryption.verifyEncryptedToken(
+        req.headers.authorization!
+      );
 
       const taskFound = (await this.taskService.findTask(
         Number(taskId),
-        Number(userId)
+        Number(id)
       )) as ITaskValidated;
 
       if (!taskFound || taskFound.isValid!) {

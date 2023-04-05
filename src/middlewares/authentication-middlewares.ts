@@ -10,13 +10,7 @@ export class AuthenticationMiddlewares {
     try {
       const { authorization } = req.headers as any;
 
-      if (!authorization) {
-        return unauthorizedError(res, "no token provided");
-      }
-
-      const [, token] = authorization.split(" ");
-
-      this.encryptionService.verifyEncryptedToken(token);
+      this.encryptionService.verifyEncryptedToken(authorization);
       next();
     } catch (error) {
       return unauthorizedError(res, "invalid token has been provided");
@@ -34,10 +28,8 @@ export class AuthenticationMiddlewares {
       if (!authorization) {
         return unauthorizedError(res, "no token provided");
       }
-
-      const [, token] = authorization.split(" ");
-
-      const role = this.encryptionService.verifyEncryptedToken(token);
+      const { role } =
+        this.encryptionService.verifyEncryptedToken(authorization);
 
       if (role !== USER_ROLES.MANAGER) {
         return unauthorizedError(res, "UNAUTHORIZED");

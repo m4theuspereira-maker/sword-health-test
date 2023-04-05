@@ -8,7 +8,7 @@ export const TOO_LOWER_CHARACTERS = "TOO_LOWER_CHARACTERS";
 export const SUMARY_EMPTY_ERROR = "SUMARY_EMPTY";
 export const EMPTY_TITLE_ERROR = "EMPTY_TITLE";
 export const USER_ALREADY_FOUND_ERROR = "USER_ALREADY_FOUND";
-export const USER_NOT_FOUND_ERROR = "USER_ALREADY_FOUND";
+export const USER_OR_TASK_NOT_FOUND = "USER_OR_TASK_NOT_FOUND";
 export const INVALID_STATUS_ERROR = "INVALID_STATUS";
 export const TASK_NOT_FOUND_ERROR = "TASK_NOT_FOUND";
 
@@ -41,7 +41,7 @@ export const userAlreadyFoundError = (): IDomainError => {
 };
 
 export const userNotFoundError = (): IDomainError => {
-  return { isValid: false, error: USER_NOT_FOUND_ERROR };
+  return { isValid: false, error: USER_OR_TASK_NOT_FOUND };
 };
 
 export const taskNotFoundError = (): IDomainError => {

@@ -41,7 +41,7 @@ export class UserService {
         role
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new InternalServerErrorExpection();
     }
   }
@@ -66,7 +66,8 @@ export class UserService {
       const token = this.encryptionService.encryptToken(
         username,
         password,
-        userFound.role
+        userFound.role,
+        userFound.id
       );
 
       return { username, password: validPaswordHashed, token };
@@ -111,7 +112,8 @@ export class UserService {
       const token = this.encryptionService.encryptToken(
         username,
         newPassword,
-        userFound.role
+        userFound.role,
+        userFound.id
       );
 
       return { ...userUpdated, token };
