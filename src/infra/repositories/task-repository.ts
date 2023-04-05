@@ -37,7 +37,7 @@ export class TaskRepository implements IRepository {
       return this.client.task.findFirst({
         where: { id, userId, deletedAt: null },
         select: {
-          id:true,
+          id: true,
           sumary: true,
           userId: true,
           createdAt: true,
@@ -52,10 +52,21 @@ export class TaskRepository implements IRepository {
   }
 
   async findMany(limit: number, offset: number) {
-
     const tasksFound = await this.client.task.findMany({
       take: limit,
       skip: offset
+    });
+
+    return tasksFound.filter((task) => !task.deletedAt);
+  }
+
+  async findTasksByUser(limit: number, offset: number, userId: number) {
+    const tasksFound = await this.client.task.findMany({
+      take: limit,
+      skip: offset,
+      where: {
+        userId
+      }
     });
 
     return tasksFound.filter((task) => !task.deletedAt);

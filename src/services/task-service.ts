@@ -112,6 +112,20 @@ export class TaskService {
     }
   }
 
+  async findTasksByUserId(page: number, userId: number) {
+    try {
+      const pageoffset = (page - 1) * DEFAULT_PAGE_LIMIT;
+
+      return this.taskRepository.findTasksByUser(
+        DEFAULT_PAGE_LIMIT,
+        pageoffset,
+        userId
+      );
+    } catch (error) {
+      throw new InternalServerErrorExpection();
+    }
+  }
+
   async deleteTask(taskId: number, userId: number) {
     try {
       const taskFound = await this.taskRepository.findById(taskId, userId);

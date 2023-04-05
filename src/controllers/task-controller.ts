@@ -100,7 +100,7 @@ export class TaskController {
     try {
       const { page } = req.query;
 
-      const pageValidated = page ? Number(page) < 1 : 1;
+      const pageValidated = Number(page) < 1 ? 1 : page;
 
       const tasksFound = await this.taskService.findAllTasks(
         Number(pageValidated)
@@ -128,6 +128,27 @@ export class TaskController {
       if (!taskFound || taskFound.isValid!) {
         return notFoundError(res, TASK_NOT_FOUND_ERROR);
       }
+
+      ok(res, taskFound);
+    } catch (error) {
+      return serverError(res, error);
+    }
+  };
+
+  findTasksByUserId = async (req: Request, res: Response) => {
+    try {
+      const { page } = req.query;
+
+      const pageValidated = page ? Number(page) < 1 : 1;
+
+      const { id } = this.encryption.verifyEncryptedToken(
+        req.headers.authorization!
+      );
+
+      const taskFound = await this.taskService.findTasksByUserId(
+        Number(pageValidated),
+        Number(id)
+      );
 
       ok(res, taskFound);
     } catch (error) {

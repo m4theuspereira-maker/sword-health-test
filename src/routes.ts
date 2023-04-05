@@ -31,6 +31,11 @@ routes.put(
   taskController.updateTask
 );
 routes.get(
+  "/task/find/user",
+  middlewares.requireAuthentication,
+  taskController.findTasksByUserId
+);
+routes.get(
   "/task/find/:taskId/",
   middlewares.requireAuthentication,
   taskController.findTask
