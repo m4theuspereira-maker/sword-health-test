@@ -1,29 +1,17 @@
 import express from "express";
 import cors from "cors";
 import { PORT } from "./config/environment-consts";
-import { RabbitmqServer } from "./infra/message-broker/rabbitmq-server";
 import { routes } from "./routes";
+import { messageBrokerConsumer } from "./factories/infra-factories";
 
 const app = express();
 app.use(cors());
 app.use(routes);
 
-const consumer = async () => {
-  const server = new RabbitmqServer("amqp://admin:admin@localhost:5672");
-  await server.start();
-  console.log("disgraça");
-
-  await server.consume("notifications", (message, context) => {
-    console.log(message);
-    context.success();
-  });
-};
-
-consumer();
-
-const server = app.listen(PORT, () => {
+const server = app.listen(PORT, async () => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  await messageBrokerConsumer();
   console.log(`listening on port ${PORT} 🚀`);
 });
 

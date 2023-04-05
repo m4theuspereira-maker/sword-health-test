@@ -1,9 +1,11 @@
 import { client } from "../config/client/client";
+import { MESSAGE_BROKER_ADDRESS } from "../config/environment-consts";
 import { TaskController } from "../controllers/task-controller";
 import { UserController } from "../controllers/user-controller";
 import { TaskDomain } from "../domains/task-domain";
 import { UserDomain } from "../domains/user-domain";
 import { Encryption } from "../infra/encryotion/encryption";
+import { MessageBrokerServer } from "../infra/message-broker/message-broker-server";
 import { TaskRepository } from "../infra/repositories/task-repository";
 import { UsersRepository } from "../infra/repositories/user-repository";
 import { TaskService } from "../services/task-service";
@@ -29,7 +31,8 @@ export function tasksControllerFactory(): TaskController {
   const taskService = new TaskService(
     taskRepository,
     userRepository,
-    taskDomain
+    taskDomain,
+    new MessageBrokerServer(String(MESSAGE_BROKER_ADDRESS))
   );
 
   return new TaskController(taskService, encryption);

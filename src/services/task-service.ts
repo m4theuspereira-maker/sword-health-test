@@ -5,11 +5,11 @@ import {
   userNotFoundError
 } from "../domains/errors/error";
 import {
-  TASK_STATUS,
   TASK_STATUS_ARRAY,
   TaskDomain
 } from "../domains/task-domain";
 import { InternalServerErrorExpection } from "../infra/errors/errors";
+import { MessageBrokerServer } from "../infra/message-broker/message-broker-server";
 import { ICreateTaskDto } from "../infra/repositories/interfaces/repository-interfaces";
 import { TaskRepository } from "../infra/repositories/task-repository";
 import { UsersRepository } from "../infra/repositories/user-repository";
@@ -19,7 +19,8 @@ export class TaskService {
   constructor(
     private readonly taskRepository: TaskRepository,
     private readonly userRepository: UsersRepository,
-    private readonly taskDomain: TaskDomain
+    private readonly taskDomain: TaskDomain,
+    private readonly messageBrokerServer: MessageBrokerServer
   ) {}
 
   async createTask(task: ICreateTaskDto) {
