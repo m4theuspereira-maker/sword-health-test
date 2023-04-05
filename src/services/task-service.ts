@@ -1,3 +1,4 @@
+import { DEFAULT_PAGE_LIMIT } from "../config/environment-consts";
 import {
   invalidStatusError,
   taskNotFoundError,
@@ -96,9 +97,14 @@ export class TaskService {
     }
   }
 
-  async findAllTasks() {
+  async findAllTasks(page: number) {
     try {
-      return this.taskRepository.findMany();
+
+      const pageoffset = (page - 1) * DEFAULT_PAGE_LIMIT;
+
+
+
+      return this.taskRepository.findMany(DEFAULT_PAGE_LIMIT, pageoffset);
     } catch (error) {
       throw new InternalServerErrorExpection();
     }

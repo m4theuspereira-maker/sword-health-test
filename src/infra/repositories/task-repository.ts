@@ -50,8 +50,12 @@ export class TaskRepository implements IRepository {
     }
   }
 
-  async findMany() {
-    const tasksFound = await this.client.task.findMany();
+  async findMany(limit: number, offset: number) {
+
+    const tasksFound = await this.client.task.findMany({
+      take: limit,
+      skip: offset
+    });
 
     return tasksFound.filter((task) => !task.deletedAt);
   }

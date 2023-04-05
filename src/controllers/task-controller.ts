@@ -79,4 +79,20 @@ export class TaskController {
       return serverError(res, error);
     }
   };
+
+  findAllTasks = async (req: Request, res: Response) => {
+    try {
+      const { page } = req.query;
+
+      const pageValidated = page || 0;
+
+      const tasksFound = await this.taskService.findAllTasks(
+        Number(pageValidated)
+      );
+
+      return ok(res, tasksFound);
+    } catch (error) {
+      return serverError(res, error);
+    }
+  };
 }

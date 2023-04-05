@@ -4,5 +4,5 @@ import { config } from "dotenv";
 config({ path: resolve(__dirname, "../../.env") });
 
 export const PORT = process.env.PORT || 3000;
-export const APP_SECRET = ''
-
+export const APP_SECRET = process.env.APP_SECRET;
+export const DEFAULT_PAGE_LIMIT = 20;
