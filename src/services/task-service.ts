@@ -106,6 +106,12 @@ export class TaskService {
 
   async deleteTask(taskId: number) {
     try {
+      const taskFound = await this.taskRepository.findById(taskId);
+
+      if (!taskFound) {
+        return null;
+      }
+
       return this.taskRepository.update(taskId, { deletedAt: new Date() });
     } catch (error) {
       throw new InternalServerErrorExpection();
