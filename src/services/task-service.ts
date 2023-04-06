@@ -161,7 +161,7 @@ export class TaskService {
     }
   }
 
-  formatMessage(
+  private formatMessage(
     username: string,
     updatePaylod: IUpdateTaskDto,
     anteirorTaskStatus: string
