@@ -21,7 +21,7 @@ export class TaskController {
 
   createTask = async (req: Request, res: Response) => {
     try {
-      const { title, sumary } = req.body;
+      const { title, summary } = req.body;
 
       const { id } = this.encryption.verifyEncryptedToken(
         req.headers.authorization!
@@ -29,7 +29,7 @@ export class TaskController {
 
       const taskCreated = (await this.taskService.createTask({
         title,
-        sumary,
+        summary,
         userId: Number(id)
       })) as ITaskValidated;
 

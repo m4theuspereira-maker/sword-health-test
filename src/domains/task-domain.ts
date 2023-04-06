@@ -1,6 +1,6 @@
 import { ICreateTaskDto } from "../infra/repositories/interfaces/repository-interfaces";
 import {
-  sumaryEmptyError,
+  summaryEmptyError,
   titleEmptyError,
   tooManyCharactersError
 } from "./errors/error";
@@ -20,11 +20,11 @@ export class TaskDomain {
       return titleEmptyError();
     }
 
-    if (!task.sumary.length) {
-      return sumaryEmptyError();
+    if (!task.summary.length) {
+      return summaryEmptyError();
     }
 
-    if (task.sumary.length > 2500) {
+    if (task.summary.length > 2500) {
       return tooManyCharactersError();
     }
 
@@ -32,7 +32,7 @@ export class TaskDomain {
       isValid: true,
       task: {
         title: task.title.trim(),
-        sumary: task.sumary.trim(),
+        summary: task.summary.trim(),
         userId: task.userId,
         status: TASK_STATUS.BACKLOG
       }

@@ -8,7 +8,7 @@ export interface IRepository {
 
 export interface ICreateTaskDto {
   title: string;
-  sumary: string;
+  summary: string;
   userId: number;
   status?: string;
 }

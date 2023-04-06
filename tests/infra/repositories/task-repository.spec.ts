@@ -22,7 +22,7 @@ describe("TaskRepository", () => {
       taskRepository = new TaskRepository(prismaClient);
 
       await taskRepository.create({
-        sumary: "lorem ipsum",
+        summary: "lorem ipsum",
         userId: 4,
         title: `socorro`,
         status: "backlog"
@@ -32,7 +32,7 @@ describe("TaskRepository", () => {
         data: {
           status: "backlog",
           title: expect.any(String),
-          sumary: expect.any(String),
+          summary: expect.any(String),
           userId: expect.any(Number),
           deletedAt: null
         }
@@ -58,7 +58,7 @@ describe("TaskRepository", () => {
         },
         select: {
           id: true,
-          sumary: true,
+          summary: true,
           userId: true,
           createdAt: true,
           user: true,
@@ -78,12 +78,12 @@ describe("TaskRepository", () => {
 
       taskRepository = new TaskRepository(prismaClient);
 
-      await taskRepository.update(4, { sumary: "cavalo" });
+      await taskRepository.update(4, { summary: "cavalo" });
 
       expect(taskSpy).toHaveBeenCalledWith({
         where: { id: expect.any(Number) },
         data: {
-          sumary: "cavalo",
+          summary: "cavalo",
           updatedAt: new Date()
         }
       });

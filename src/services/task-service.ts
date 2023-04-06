@@ -33,7 +33,7 @@ export class TaskService {
     try {
       const taskValidated = this.taskDomain.validateTask({
         title: task.title,
-        sumary: task.sumary,
+        summary: task.summary,
         userId: task.userId
       });
 
@@ -83,10 +83,10 @@ export class TaskService {
         return taskNotFoundError();
       }
 
-      const { taskId, sumary, title, status } = updateTaskDto;
+      const { taskId, summary, title, status } = updateTaskDto;
 
       const taskUpdated = await this.taskRepository.update(taskId, {
-        sumary,
+        summary,
         title,
         status
       });

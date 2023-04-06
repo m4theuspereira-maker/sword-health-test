@@ -24,7 +24,7 @@
               },
               "example": {
                 "title": "Call lawyer",
-                "sumary": "Take law office phone number",
+                "summary": "Take law office phone number",
                 "status": "to do"
               }
             }
@@ -221,7 +221,7 @@
               },
               "example": {
                 "title": "Call lawyer",
-                "sumary": "Take law office phone number",
+                "summary": "Take law office phone number",
                 "status": "to do"
               }
             }
@@ -629,7 +629,7 @@
             "type": "string",
             "example": "Call Lawyers"
           },
-          "sumary": {
+          "summary": {
             "type": "string",
             "example": "Take the law office phone number"
           },

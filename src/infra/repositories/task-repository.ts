@@ -9,10 +9,10 @@ import { InternalServerErrorExpection } from "../errors/errors";
 export class TaskRepository implements IRepository {
   constructor(private readonly client: PrismaClient) {}
 
-  async create({ sumary, userId, title, status }: ICreateTaskDto) {
+  async create({ summary, userId, title, status }: ICreateTaskDto) {
     try {
       return this.client.task.create({
-        data: { sumary, userId, deletedAt: null, title, status: status! }
+        data: { summary, userId, deletedAt: null, title, status: status! }
       });
     } catch (error) {
       throw new InternalServerErrorExpection();
@@ -39,7 +39,7 @@ export class TaskRepository implements IRepository {
         where: { id, userId, deletedAt: null },
         select: {
           id: true,
-          sumary: true,
+          summary: true,
           userId: true,
           createdAt: true,
           user: true,

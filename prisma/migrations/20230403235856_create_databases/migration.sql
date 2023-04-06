@@ -13,7 +13,7 @@ CREATE TABLE `user` (
 -- CreateTable
 CREATE TABLE `task` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `sumary` LONGTEXT NOT NULL,
+    `summary` LONGTEXT NOT NULL,
     `userId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NULL,
