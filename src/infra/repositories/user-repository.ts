@@ -53,7 +53,9 @@ export class UsersRepository implements IRepository {
 
   async find(input: any) {
     try {
-      return this.client.user.findFirst({ where: { ...input } });
+      return this.client.user.findFirst({
+        where: { ...input, deletedAt: null }
+      });
     } catch (error) {
       throw new InternalServerErrorExpection();
     }

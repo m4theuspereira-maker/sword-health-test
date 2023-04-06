@@ -11,6 +11,7 @@ describe("UsersRepository", () => {
   beforeEach(() => {
     prismaClient = createMockContext().prisma;
     MockDate.set(new Date());
+    userRepository = new UsersRepository(prismaClient);
   });
 
   describe("create", () => {
@@ -18,8 +19,6 @@ describe("UsersRepository", () => {
       userSpy = jest
         .spyOn(prismaClient.user, "create")
         .mockResolvedValueOnce(null as any);
-
-      userRepository = new UsersRepository(prismaClient);
 
       await userRepository.create({
         username: "jubileu",
@@ -44,8 +43,6 @@ describe("UsersRepository", () => {
         .spyOn(prismaClient.user, "findFirst")
         .mockResolvedValueOnce(null as any);
 
-      userRepository = new UsersRepository(prismaClient);
-
       await userRepository.findById(4);
 
       expect(userSpy).toHaveBeenCalledWith({
@@ -69,8 +66,6 @@ describe("UsersRepository", () => {
         .spyOn(prismaClient.user, "update")
         .mockResolvedValueOnce(null as any);
 
-      userRepository = new UsersRepository(prismaClient);
-
       await userRepository.update(4, { username: "cavalo" });
 
       expect(userSpy).toHaveBeenCalledWith({
@@ -79,6 +74,36 @@ describe("UsersRepository", () => {
           username: "cavalo",
           updatedAt: new Date()
         }
+      });
+    });
+  });
+
+  describe("find", () => {
+    it("should call client with correct params", async () => {
+      userSpy = jest
+        .spyOn(prismaClient.user, "findFirst")
+        .mockResolvedValueOnce(null as any);
+
+      const findDTO = { username: "maria" };
+
+      await userRepository.find(findDTO);
+
+      expect(userSpy).toHaveBeenCalledWith({
+        where: { ...findDTO, deletedAt: null }
+      });
+    });
+  });
+
+  describe("countByUsername", () => {
+    it("should call client with correct params", async () => {
+      userSpy = jest
+        .spyOn(prismaClient.user, "count")
+        .mockResolvedValueOnce(null as any);
+
+      await userRepository.countByUsername("maria");
+
+      expect(userSpy).toHaveBeenCalledWith({
+        where: { username: expect.any(String) }
       });
     });
   });
