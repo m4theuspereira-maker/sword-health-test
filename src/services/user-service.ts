@@ -70,7 +70,7 @@ export class UserService {
         userFound.id
       );
 
-      return { username, password: validPaswordHashed, token };
+      return { username, password: userFound.password, token };
     } catch (error) {
       throw new InternalServerErrorExpection();
     }

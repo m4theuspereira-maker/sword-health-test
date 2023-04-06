@@ -213,6 +213,19 @@
         "summary": "Update task",
         "description": "update a saved task",
         "tags": ["task"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "example": 8
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -373,7 +386,8 @@
                   "value": {
                     "username": "maria",
                     "password": "1234",
-                    "repeat_password": "1234"
+                    "repeat_password": "1234",
+                    "role":"manager"
                   }
                 }
               }
