@@ -63,7 +63,8 @@ describe("TaskRepository", () => {
           createdAt: true,
           user: true,
           updatedAt: true,
-          deletedAt: true
+          deletedAt: true,
+          status: true
         }
       });
     });

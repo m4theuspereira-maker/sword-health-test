@@ -1,16 +1,22 @@
-import { DEFAULT_PAGE_LIMIT } from "../config/environment-consts";
+import {
+  DEFAULT_PAGE_LIMIT,
+  MESSAGE_BROKER_ADDRESS
+} from "../config/environment-consts";
 import {
   invalidStatusError,
   taskNotFoundError,
   userNotFoundError
 } from "../domains/errors/error";
-import {
-  TASK_STATUS_ARRAY,
-  TaskDomain
-} from "../domains/task-domain";
+import { TASK_STATUS_ARRAY, TaskDomain } from "../domains/task-domain";
 import { InternalServerErrorExpection } from "../infra/errors/errors";
-import { MessageBrokerServer } from "../infra/message-broker/message-broker-server";
-import { ICreateTaskDto } from "../infra/repositories/interfaces/repository-interfaces";
+import {
+  MESSAGE_BROKER_QUEUES,
+  MessageBrokerServer
+} from "../infra/message-broker/message-broker-server";
+import {
+  ICreateTaskDto,
+  ITaskDto
+} from "../infra/repositories/interfaces/repository-interfaces";
 import { TaskRepository } from "../infra/repositories/task-repository";
 import { UsersRepository } from "../infra/repositories/user-repository";
 import { IUpdateTaskDto } from "./interfaces/interfaces";
@@ -20,7 +26,7 @@ export class TaskService {
     private readonly taskRepository: TaskRepository,
     private readonly userRepository: UsersRepository,
     private readonly taskDomain: TaskDomain,
-    private readonly messageBrokerServer: MessageBrokerServer
+    private readonly messageBroker: MessageBrokerServer
   ) {}
 
   async createTask(task: ICreateTaskDto) {
@@ -79,11 +85,24 @@ export class TaskService {
 
       const { taskId, sumary, title, status } = updateTaskDto;
 
-      return this.taskRepository.update(taskId, {
+      const taskUpdated = await this.taskRepository.update(taskId, {
         sumary,
         title,
         status
       });
+
+      const messageFormated = this.formatMessage(
+        userFound.username,
+        updateTaskDto,
+        taskFound.status!
+      );
+
+      await this.messageBroker.publish(
+        MESSAGE_BROKER_QUEUES.NOTIFICATIONS,
+        messageFormated
+      );
+
+      return taskUpdated;
     } catch (error) {
       throw new InternalServerErrorExpection();
     }
@@ -139,5 +158,30 @@ export class TaskService {
     } catch (error) {
       throw new InternalServerErrorExpection();
     }
+  }
+
+  formatMessage(
+    username: string,
+    updatePaylod: IUpdateTaskDto,
+    anteirorTaskStatus: string
+  ): string {
+    const hasRequiredFieldsToPerformMessage =
+      Object.keys(updatePaylod).includes("status") &&
+      Object.keys(updatePaylod).includes("title");
+
+    const date = new Date();
+
+    if (
+      hasRequiredFieldsToPerformMessage &&
+      anteirorTaskStatus !== updatePaylod.status
+    ) {
+      return `Tachnician *${username.toUpperCase()}* performed task titled of *${updatePaylod.title?.toUpperCase()}* from status *${updatePaylod.status?.toLocaleUpperCase()}* to status *${updatePaylod.status?.toUpperCase()}* at ${
+        date.getMonth() + 1
+      }/${date.getDay()}/${date.getFullYear()}`;
+    }
+
+    return `Tachnician ${username} his task of id *${updatePaylod.taskId}* at ${
+      date.getMonth() + 1
+    }/${date.getDay()}/${date.getFullYear()}`;
   }
 }

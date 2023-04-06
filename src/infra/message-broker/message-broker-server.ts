@@ -34,6 +34,7 @@ export class MessageBrokerServer {
   }
 
   async publish(queue: string, message: string) {
+    await this.start();
     return this.channel.sendToQueue(queue, Buffer.from(message));
   }
 

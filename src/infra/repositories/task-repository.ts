@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import {
   ICreateTaskDto,
-  IRepository
+  IRepository,
+  ITaskDto
 } from "./interfaces/repository-interfaces";
 import { InternalServerErrorExpection } from "../errors/errors";
 
@@ -43,9 +44,10 @@ export class TaskRepository implements IRepository {
           createdAt: true,
           user: true,
           updatedAt: true,
-          deletedAt: true
+          deletedAt: true,
+          status: true
         }
-      });
+      }) as unknown as ITaskDto;
     } catch (error) {
       throw new InternalServerErrorExpection();
     }

@@ -9,9 +9,9 @@ app.use(cors());
 app.use(routes);
 
 const server = app.listen(PORT, async () => {
+  await messageBrokerConsumer();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  await messageBrokerConsumer();
   console.log(`listening on port ${PORT} 🚀`);
 });
 

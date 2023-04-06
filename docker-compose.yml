@@ -24,9 +24,8 @@ services:
       - RABBITMQ_DEFAULT_PASS=admin
     networks:
       - rabbitmq_go_net
-
-  template:
-    container_name: template
+  swordhaelth:
+    container_name: swordhaelth
     build:
       context: ./
       dockerfile: ./Dockerfile
@@ -37,9 +36,12 @@ services:
       - "3000:3000"
     volumes:
       - "./:/app"
-    depends_on:
-      - db
+    links:
       - rabbitmq
+      - db
+    depends_on:
+      - rabbitmq
+      - db
 
 networks:
   rabbitmq_go_net:

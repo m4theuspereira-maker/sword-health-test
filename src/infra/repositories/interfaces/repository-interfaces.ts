@@ -3,7 +3,7 @@ export interface IRepository {
 
   update(id: number, updatePayload: any): Promise<any>;
 
-  findById(id: number, secondId?:number): Promise<any>;
+  findById(id: number, secondId?: number): Promise<any>;
 }
 
 export interface ICreateTaskDto {
@@ -18,4 +18,11 @@ export interface ICreateUserDto {
   password: string;
   repeatPassword?: string;
   role: string;
+}
+
+export interface ITaskDto extends ICreateTaskDto {
+  id: number;
+  createdAt: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
 }
