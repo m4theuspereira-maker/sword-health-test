@@ -190,11 +190,18 @@ export const UPDATE_TASK_WITH_INVALID_STATUS = {
 
 export const TASK_MOCK = {
   id: 21,
-  title: "fazer o L",
+  title: "Bem vindo",
   sumary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   userId: 8,
   status: "backlog",
   createdAt: "2023-04-06T02:15:10.642Z",
   updatedAt: null,
   deletedAt: null
+};
+
+export const USER_WITH_INVALID_PASSWORD_REPEAT = {
+  username: "dilma",
+  password: "1234",
+  repeatPassword: "4321",
+  role: "manager"
 };

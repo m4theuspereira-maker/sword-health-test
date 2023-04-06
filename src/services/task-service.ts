@@ -1,6 +1,5 @@
 import {
   DEFAULT_PAGE_LIMIT,
-  MESSAGE_BROKER_ADDRESS
 } from "../config/environment-consts";
 import {
   invalidStatusError,
@@ -15,7 +14,6 @@ import {
 } from "../infra/message-broker/message-broker-server";
 import {
   ICreateTaskDto,
-  ITaskDto
 } from "../infra/repositories/interfaces/repository-interfaces";
 import { TaskRepository } from "../infra/repositories/task-repository";
 import { UsersRepository } from "../infra/repositories/user-repository";

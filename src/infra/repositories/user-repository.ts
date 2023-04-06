@@ -65,7 +65,6 @@ export class UsersRepository implements IRepository {
     try {
       return this.client.user.count({ where: { username } });
     } catch (error) {
-      console.log(error);
       throw new InternalServerErrorExpection();
     }
   }

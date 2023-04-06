@@ -92,3 +92,28 @@ $ docker-compose up
 ├─ yarn-error.log
 └─ yarn.lock
 ```
+
+## Basic usage
+
+
+If you wanna tests endpoints you have get the authentication token. To get token may start application and access the address YOUR_LOCALHOST:ENV_FILE_PORT/api. After see swagger home page, access users tags and create an new user.
+
+![plot](./assets/create_user.PNG)
+
+Then, make login with your username and password
+
+![plot](./assets/login.PNG)
+
+Logged, copy the user token provided via http response
+
+![plot](./assets/token-login.PNG)
+
+Now, go to the authorization botton at the top of swagger home page.
+
+![plot](./assets/authorize%20botton.png)
+
+And paste your authorization token into blank field, then click in authoriza
+
+![plot](./assets/authorization%20field.png)
+
+Now you're authenticated and you can test all application endpoints.
