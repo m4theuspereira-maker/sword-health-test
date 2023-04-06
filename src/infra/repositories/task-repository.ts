@@ -56,7 +56,17 @@ export class TaskRepository implements IRepository {
   async findMany(limit: number, offset: number) {
     const tasksFound = await this.client.task.findMany({
       take: limit,
-      skip: offset
+      skip: offset,
+      select: {
+        id: true,
+        summary: true,
+        userId: true,
+        createdAt: true,
+        user: true,
+        updatedAt: true,
+        deletedAt: true,
+        status: true
+      }
     });
 
     return tasksFound.filter((task) => !task.deletedAt);
