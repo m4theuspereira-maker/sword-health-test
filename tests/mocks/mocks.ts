@@ -145,8 +145,56 @@ export const FIND_MANY_TASKS_MOCK = [
   }
 ];
 
-
 export function generateRandomNumber() {
   let randomNumber = Math.floor(Math.random() * 90000) + 10000;
   return randomNumber;
 }
+
+export const USER_MOCK = {
+  id: 8,
+  username: "dilma",
+  password: "$2b$08$JH4hm.iV01fCrYWTVblAP.EG2MGRq02EUd7O92ZBlDaUGoTkgsGfi",
+  role: "manager",
+  createdAt: "2023-04-05T18:20:19.001Z",
+  updatedAt: null,
+  deletedAt: null
+};
+
+export const CREATE_TASK_MOCK = {
+  title: "Task created",
+  summary: "socorro mainhaaaa",
+  userId: 7
+};
+
+export const CREATE_TASK_WITH_EMPTY_TITLE = {
+  title: "",
+  summary: "socorro mainhaaaa",
+  userId: 7
+};
+
+export const UPDATE_TASK = {
+  title: "Task created",
+  summary: "socorro mainhaaaa",
+  userId: 7,
+  status: "backlog",
+  taskId: 1
+};
+
+export const UPDATE_TASK_WITH_INVALID_STATUS = {
+  title: "Task created",
+  summary: "socorro mainhaaaa",
+  userId: 7,
+  status: "invalid",
+  taskId: 1
+};
+
+export const TASK_MOCK = {
+  id: 21,
+  title: "fazer o L",
+  sumary: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  userId: 8,
+  status: "backlog",
+  createdAt: "2023-04-06T02:15:10.642Z",
+  updatedAt: null,
+  deletedAt: null
+};
