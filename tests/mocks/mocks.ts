@@ -144,3 +144,9 @@ export const FIND_MANY_TASKS_MOCK = [
     status: "to do"
   }
 ];
+
+
+export function generateRandomNumber() {
+  let randomNumber = Math.floor(Math.random() * 90000) + 10000;
+  return randomNumber;
+}
