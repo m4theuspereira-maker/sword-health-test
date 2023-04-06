@@ -521,7 +521,7 @@
       "put": {
         "summary": "Reset password",
         "description": "This endpoint reset a password and a new token",
-        "tags": ["task"],
+        "tags": ["user"],
         "requestBody": {
           "content": {
             "application/json": {
