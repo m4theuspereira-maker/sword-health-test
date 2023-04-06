@@ -14,7 +14,6 @@ const routes = Router();
 routes.use(cors());
 routes.use(express.json());
 routes.use(express.urlencoded({ extended: true }));
-
 routes.post(
   "/task/create",
   middlewares.requireAuthentication,

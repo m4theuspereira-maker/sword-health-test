@@ -1,0 +1,655 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SwordHealth",
+    "version": "1.0.0"
+  },
+  "servers": [{ "url": "http://localhost:3000/" }],
+  "paths": {
+    "/task/create": {
+      "post": {
+        "summary": "Create a new Task",
+        "description": "Create a new task to be performed by technicians",
+        "tags": ["task"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Task"
+              },
+              "example": {
+                "title": "Call lawyer",
+                "sumary": "Take law office phone number",
+                "status": "to do"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "no token provided"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/find/user": {
+      "get": {
+        "summary": "find all logged user tasks",
+        "description": "bring all the tasks of logged user",
+        "tags": ["task"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "no token provided"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/find/{taskId}": {
+      "get": {
+        "summary": "Get a task by its id",
+        "description": "bring a task by its and the id of logged user by his token",
+        "tags": ["task"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "example": 8
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "no token provided"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/find/": {
+      "get": {
+        "summary": "Get all the tasks",
+        "description": "bring all the tasks independent by its userId, this endpoint only can be used by managers",
+        "tags": ["task"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "example": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "no token provided"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/update/{taskId}": {
+      "put": {
+        "summary": "Update task",
+        "description": "update a saved task",
+        "tags": ["task"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Task"
+              },
+              "example": {
+                "title": "Call lawyer",
+                "sumary": "Take law office phone number",
+                "status": "to do"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "no token provided"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "USER_OR_TASK_NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/task/delete/{userId}/{taskId}": {
+      "delete": {
+        "summary": "delete a task",
+        "description": "make the logical delete. This endpoint only can be used by managers",
+        "tags": ["task"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "required": true,
+            "example": 8
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "example": 8
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "no token provided"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "USER_OR_TASK_NOT_FOUND",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/create": {
+      "post": {
+        "summary": "Registre of a new user",
+        "description": "This route registres a new user",
+        "tags": ["user"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "nullable": false
+                  },
+                  "password": {
+                    "type": "string",
+                    "nullable": false
+                  },
+                  "repeat_password": {
+                    "type": "string",
+                    "nullable": false
+                  }
+                }
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "username": "maria",
+                    "password": "1234",
+                    "repeat_password": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "64138c1996b2eeb9468cf60f"
+                    },
+                    "username": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "maria"
+                    },
+                    "password": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "1234"
+                    },
+                    "create_at": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "2023-03-16T16:35:38.161Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": null
+                    },
+                    "deleted_at": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": null
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "CONFLICT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "there's already an user with that username"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "summary": "Login",
+        "description": "This endpoint returns a logged user with token",
+        "tags": ["user"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "nullable": false
+                  },
+                  "password": {
+                    "type": "string",
+                    "nullable": false
+                  }
+                }
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "username": "maria",
+                    "password": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "username": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "maria"
+                    },
+                    "password": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "4321"
+                    },
+                    "token": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "no token provided"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/reset": {
+      "put": {
+        "summary": "Reset password",
+        "description": "This endpoint reset a password and a new token",
+        "tags": ["task"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "nullable": false
+                  },
+                  "old_password": {
+                    "type": "string",
+                    "nullable": false
+                  },
+                  "new_password": {
+                    "type": "string",
+                    "nullable": false
+                  }
+                }
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "username": "maria",
+                    "old_password": "1234",
+                    "new_password": "4321"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "64138c1996b2eeb9468cf60f"
+                    },
+                    "username": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "maria"
+                    },
+                    "password": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "$2b$08$FAbX1M7T/jzAjiDQviPfUu52FnwXGLuqXWV9SDUmF9sZRsOL.aoTi"
+                    },
+                    "create_at": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "2023-03-16T16:35:38.161Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": null
+                    },
+                    "deleted_at": {
+                      "type": "string",
+                      "nullable": true,
+                      "example": null
+                    },
+                    "token": {
+                      "type": "string",
+                      "nullable": false,
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "UNAUTHORIZED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "no token provided"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Task": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Call Lawyers"
+          },
+          "sumary": {
+            "type": "string",
+            "example": "Take the law office phone number"
+          },
+          "userId": {
+            "type": "number",
+            "example": 7
+          },
+          "status": {
+            "type": "string",
+            "example": "to do"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -156,6 +156,7 @@ export class TaskService {
 
       return this.taskRepository.update(taskId, { deletedAt: new Date() });
     } catch (error) {
+      console.log(error);
       throw new InternalServerErrorExpection();
     }
   }
