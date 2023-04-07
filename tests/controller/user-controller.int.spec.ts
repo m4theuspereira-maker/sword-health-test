@@ -8,11 +8,9 @@ import { MessageBrokerServer } from "../../src/infra/message-broker/message-brok
 
 describe("UserController", () => {
   let encryption: Encryption;
-  let messageBroker: MessageBrokerServer;
 
   beforeEach(() => {
     encryption = new Encryption();
-    messageBroker = new MessageBrokerServer(`any_uri`);
     Mockdate.set(new Date());
     jest.resetAllMocks();
   });
@@ -31,7 +29,6 @@ describe("UserController", () => {
       jest.spyOn(client.user, "count").mockResolvedValueOnce(0);
       jest.spyOn(client.user, "create").mockResolvedValueOnce(USER_MOCK as any);
       jest.spyOn(client.user, "count").mockResolvedValueOnce(0);
-      jest.spyOn(messageBroker, "start").mockResolvedValueOnce(null as any);
 
       const { status } = await supertest(server).post("/user/create").send({
         username: "dilma",
