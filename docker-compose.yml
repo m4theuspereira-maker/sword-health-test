@@ -11,6 +11,8 @@ services:
       MYSQL_USER: techteam
       MYSQL_PASSWORD: 123456Aa@
       MYSQL_ROOT_HOST: "%"
+    depends_on:
+      - rabbitmq
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3.8-management
@@ -29,7 +31,7 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    command: "yarn start"
+    command: "sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- yarn start'"
     env_file:
       - .env
     ports:
@@ -42,6 +44,8 @@ services:
     depends_on:
       - rabbitmq
       - db
+    networks:
+      - rabbitmq_go_net
 
 networks:
   rabbitmq_go_net:

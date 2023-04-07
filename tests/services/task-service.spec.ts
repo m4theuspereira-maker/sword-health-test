@@ -233,7 +233,7 @@ describe("TaskService", () => {
       );
 
       expect(message).toBe(
-        "Tachnician *ERNANE* performed task titled of *CHICLETE COM BANANA* from status *TO DO* to status *TO DO* at 4/4/2023"
+        "Tachnician *ERNANE* performed task titled of *CHICLETE COM BANANA* from status *TO DO* to status *TO DO* at 4/5/2023"
       );
     });
 
@@ -248,7 +248,7 @@ describe("TaskService", () => {
         "backlog"
       );
 
-      expect(message).toBe("Tachnician ernane his task of id *1* at 4/4/2023");
+      expect(message).toBe("Tachnician ernane his task of id *1* at 4/5/2023");
     });
   });
 });

@@ -73,7 +73,6 @@ describe("UserController", () => {
           role: "manager"
         });
 
-      console.log(body);
 
       expect({ status, body }).toStrictEqual({
         status: 409,

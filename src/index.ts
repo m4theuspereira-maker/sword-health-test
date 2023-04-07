@@ -5,7 +5,7 @@ import { routes } from "./routes";
 import swaggerUi from "swagger-ui-express";
 import { messageBrokerConsumer } from "./factories/infra-factories";
 
-const app = express();
+export const app = express();
 app.use(cors());
 app.use(routes);
 
