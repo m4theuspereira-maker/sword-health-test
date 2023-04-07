@@ -66,7 +66,7 @@ $ docker-compose up
 
 ### To migrate database schemas
 
-(know more in: prisma.io/docs/concepts/components/prisma-migrate)
+(know more in: https://prisma.io/docs/concepts/components/prisma-migrate)
 
 ```
 $ npx prisma migrate dev
