@@ -25,24 +25,24 @@ describe("UserController", () => {
   });
 
   describe("createUser", () => {
-    // test(`
-    // should return a created user
-    // status:200
-    // POST route:/user/create
-    // `, async () => {
-    //   jest.spyOn(client.user, "count").mockResolvedValueOnce(0);
-    //   jest.spyOn(client.user, "create").mockResolvedValueOnce(USER_MOCK as any);
-    //   jest.spyOn(client.user, "count").mockResolvedValueOnce(0);
+    test(`
+    should return a created user
+    status:200
+    POST route:/user/create
+    `, async () => {
+      jest.spyOn(client.user, "count").mockResolvedValueOnce(0);
+      jest.spyOn(client.user, "create").mockResolvedValueOnce(USER_MOCK as any);
+      jest.spyOn(client.user, "count").mockResolvedValueOnce(0);
 
-    //   const { status } = await supertest(server).post("/user/create").send({
-    //     username: "dilma",
-    //     password: "1234",
-    //     repeat_password: "1234",
-    //     role: "manager"
-    //   });
+      const { status } = await supertest(server).post("/user/create").send({
+        username: "dilma",
+        password: "1234",
+        repeat_password: "1234",
+        role: "manager"
+      });
 
-    //   expect(status).toBe(200);
-    // });
+      expect(status).toBe(200);
+    });
 
     test(`
     should return an error of password was defferent of repeat
