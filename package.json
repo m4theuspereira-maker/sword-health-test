@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn && yarn rimraf dist && npx rimraf .husky && yarn tsc -p tsconfig-build.json && yarn prepare",
-    "test": "jest --config ./jest.config.js --detectOpenHandles --forceExit",
+    "test": "jest --config ./jest.config.js --forceExit",
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test -- --coverage",
     "dev": "nodemon src/index.ts",

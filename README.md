@@ -64,37 +64,135 @@ $ yarn test:coverage
 $ docker-compose up
 ```
 
+### To migrate database schemas
+
+(know more in: prisma.io/docs/concepts/components/prisma-migrate)
+
+```
+$ npx prisma migrate dev
+```
+
 ## Project folders schema
 
 ```
+sword-health-test
 ├─ .circleci
 │  └─ config.yml
-├─ src
-│  ├─ config
-│  │  ├─ dotenv.ts
-│  │  └─ environment-consts.ts
-│  └─ index.ts
-├─ tests
-│  └─ example.spec.ts
 ├─ .editorconfig
 ├─ .eslintignore
 ├─ .eslintrc.json
+│  ├─ index
+│  ├─ info
+│  │  └─ exclude
+│  ├─ lint-staged_unstaged.patch
+│  ├─ logs
+│  │  ├─ HEAD
+│  │  └─ refs
+│  │     ├─ heads
+│  │     │  └─ main
+│  │     └─ remotes
+│  │        └─ origin
+│  │           ├─ HEAD
+│  │           └─ main
 ├─ .gitignore
 ├─ .prettierrc.json
 ├─ Dockerfile
 ├─ README.md
+├─ assets
+│  ├─ authorization field.png
+│  ├─ authorize botton.png
+│  ├─ create_user.PNG
+│  ├─ login.PNG
+│  └─ token-login.PNG
+├─ bin
+│  └─ wait-for-it.sh
 ├─ docker-compose.yml
 ├─ jest.config.js
 ├─ nodemon.json
 ├─ package.json
+├─ prisma
+│  ├─ migrations
+│  │  ├─ 20230403235856_create_databases
+│  │  │  └─ migration.sql
+│  │  ├─ 20230404001632_add_user_role
+│  │  │  └─ migration.sql
+│  │  ├─ 20230404020235_add_relation
+│  │  │  └─ migration.sql
+│  │  ├─ 20230404021336_add_index
+│  │  │  └─ migration.sql
+│  │  ├─ 20230404163650_add_title
+│  │  │  └─ migration.sql
+│  │  ├─ 20230404174610_add_task_status
+│  │  │  └─ migration.sql
+│  │  └─ migration_lock.toml
+│  └─ schema.prisma
+├─ src
+│  ├─ config
+│  │  ├─ client
+│  │  │  └─ client.ts
+│  │  ├─ environment-consts.ts
+│  │  └─ swagger.json
+│  ├─ controllers
+│  │  ├─ handlers
+│  │  │  └─ handles.ts
+│  │  ├─ task-controller.ts
+│  │  └─ user-controller.ts
+│  ├─ domains
+│  │  ├─ errors
+│  │  │  └─ error.ts
+│  │  ├─ interfaces
+│  │  │  └─ interfaces.ts
+│  │  ├─ task-domain.ts
+│  │  └─ user-domain.ts
+│  ├─ factories
+│  │  ├─ controller-factories.ts
+│  │  ├─ infra-factories.ts
+│  │  └─ middlewares-factory.ts
+│  ├─ index.ts
+│  ├─ infra
+│  │  ├─ encryotion
+│  │  │  └─ encryption.ts
+│  │  ├─ errors
+│  │  │  └─ errors.ts
+│  │  ├─ message-broker
+│  │  │  └─ message-broker-server.ts
+│  │  └─ repositories
+│  │     ├─ interfaces
+│  │     │  └─ repository-interfaces.ts
+│  │     ├─ task-repository.ts
+│  │     └─ user-repository.ts
+│  ├─ middlewares
+│  │  └─ authentication-middlewares.ts
+│  ├─ routes.ts
+│  └─ services
+│     ├─ interfaces
+│     │  └─ interfaces.ts
+│     ├─ task-service.ts
+│     └─ user-service.ts
+├─ tests
+│  ├─ config
+│  │  └─ client.ts
+│  ├─ controller
+│  │  └─ user-controller.int.spec.ts
+│  ├─ infra
+│  │  ├─ encryption
+│  │  │  └─ encryption.spec.ts
+│  │  └─ repositories
+│  │     ├─ task-repository.spec.ts
+│  │     └─ users-repository.spec.ts
+│  ├─ mocks
+│  │  └─ mocks.ts
+│  └─ services
+│     ├─ task-service.spec.ts
+│     └─ user-service.spec.ts
 ├─ tsconfig-build.json
 ├─ tsconfig.json
 ├─ yarn-error.log
 └─ yarn.lock
+
 ```
 
 ## Basic usage
-
 
 If you wanna tests endpoints you have get the authentication token. To get token may start application and access the address YOUR_LOCALHOST:ENV_FILE_PORT/api. After see swagger home page, access users tags and create an new user.
 

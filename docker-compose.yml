@@ -3,7 +3,6 @@ version: "3.8"
 services:
   db:
     image: mysql:8.0
-    container_name: db
     ports:
       - "3306:3306"
     environment:
@@ -13,6 +12,8 @@ services:
       MYSQL_ROOT_HOST: "%"
     depends_on:
       - rabbitmq
+    networks:
+      - mysql
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:3.8-management
@@ -48,5 +49,7 @@ services:
       - rabbitmq_go_net
 
 networks:
+  mysql:
+    driver: bridge
   rabbitmq_go_net:
     driver: bridge

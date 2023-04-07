@@ -174,7 +174,7 @@ export class TaskService {
       hasRequiredFieldsToPerformMessage &&
       anteirorTaskStatus !== updatePaylod.status
     ) {
-      return `Tachnician *${username.toUpperCase()}* performed task titled of *${updatePaylod.title?.toUpperCase()}* from status *${updatePaylod.status?.toLocaleUpperCase()}* to status *${updatePaylod.status?.toUpperCase()}* at ${
+      return `Tachnician *${username.toUpperCase()}* performed task titled of *${updatePaylod.title?.toUpperCase()}* from status *${anteirorTaskStatus.toLocaleUpperCase()}* to status *${updatePaylod.status?.toUpperCase()}* at ${
         date.getMonth() + 1
       }/${date.getDay()}/${date.getFullYear()}`;
     }

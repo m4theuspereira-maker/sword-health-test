@@ -1,4 +1,5 @@
 import { MESSAGE_BROKER_ADDRESS } from "../config/environment-consts";
+import { Encryption } from "../infra/encryotion/encryption";
 import {
   MESSAGE_BROKER_QUEUES,
   MessageBrokerServer
@@ -17,3 +18,7 @@ export const messageBrokerConsumer = async () => {
     }
   );
 };
+
+export function encryptionFactory(): Encryption {
+  return new Encryption();
+}

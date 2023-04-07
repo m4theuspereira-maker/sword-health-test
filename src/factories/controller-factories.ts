@@ -10,15 +10,17 @@ import { TaskRepository } from "../infra/repositories/task-repository";
 import { UsersRepository } from "../infra/repositories/user-repository";
 import { TaskService } from "../services/task-service";
 import { UserService } from "../services/user-service";
+import { encryptionFactory } from "./infra-factories";
+
+const encryption = encryptionFactory()
 
 export function userControllerFactory(): UserController {
   const userRepository = new UsersRepository(client);
-  const encryptionService = new Encryption();
   const userDomain = new UserDomain();
   const userServices = new UserService(
     userRepository,
     userDomain,
-    encryptionService
+    encryption
   );
   return new UserController(userServices);
 }
@@ -27,7 +29,6 @@ export function tasksControllerFactory(): TaskController {
   const taskRepository = new TaskRepository(client);
   const userRepository = new UsersRepository(client);
   const taskDomain = new TaskDomain();
-  const encryption = new Encryption();
   const taskService = new TaskService(
     taskRepository,
     userRepository,

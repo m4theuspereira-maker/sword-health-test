@@ -139,7 +139,7 @@ export class TaskController {
     try {
       const { page } = req.query;
 
-      const pageValidated = page ? Number(page) < 1 : 1;
+      const pageValidated = Number(page) < 1 ? 1 : page;
 
       const { id } = this.encryption.verifyEncryptedToken(
         req.headers.authorization!

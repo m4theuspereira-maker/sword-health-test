@@ -41,6 +41,7 @@ export class UserService {
         role
       });
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorExpection();
     }
   }
