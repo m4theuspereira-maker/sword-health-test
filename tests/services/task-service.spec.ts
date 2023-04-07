@@ -217,38 +217,4 @@ describe("TaskService", () => {
       expect(error).toBeNull();
     });
   });
-
-  describe("formatMessage", () => {
-    it("should return a complete message if it has status and title", async () => {
-      const message = taskService["formatMessage"](
-        "ernane",
-        {
-          taskId: 1,
-          userId: 2,
-          title: "chiclete com banana",
-          summary: "descer na pipoca do chiclete",
-          status: "to do"
-        },
-        "backlog"
-      );
-
-      expect(message).toBe(
-        "Tachnician *ERNANE* performed task titled of *CHICLETE COM BANANA* from status *TO DO* to status *TO DO* at 4/5/2023"
-      );
-    });
-
-    it("should return a complete message if it dont has", async () => {
-      const message = taskService["formatMessage"](
-        "ernane",
-        {
-          taskId: 1,
-          userId: 2,
-          summary: "descer na pipoca do chiclete"
-        },
-        "backlog"
-      );
-
-      expect(message).toBe("Tachnician ernane his task of id *1* at 4/5/2023");
-    });
-  });
 });

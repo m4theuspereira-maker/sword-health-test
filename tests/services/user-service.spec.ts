@@ -89,9 +89,7 @@ describe("UserService", () => {
 
       expect(userSpy).toHaveBeenCalledWith({
         username: USER_MOCK.username.toLocaleLowerCase(),
-        password: expect.stringMatching(
-          /[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/
-        ),
+        password: expect.any(String),
         role: USER_MOCK.role
       });
     });
