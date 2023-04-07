@@ -31,15 +31,14 @@ describe("UserController", () => {
       jest.spyOn(client.user, "count").mockResolvedValueOnce(0);
       jest.spyOn(client.user, "create").mockResolvedValueOnce(USER_MOCK as any);
       jest.spyOn(client.user, "count").mockResolvedValueOnce(0);
+      jest.spyOn(messageBroker, "start").mockResolvedValueOnce(null as any);
 
-      const { status, body } = await supertest(server)
-        .post("/user/create")
-        .send({
-          username: "dilma",
-          password: "1234",
-          repeat_password: "1234",
-          role: "manager"
-        });
+      const { status } = await supertest(server).post("/user/create").send({
+        username: "dilma",
+        password: "1234",
+        repeat_password: "1234",
+        role: "manager"
+      });
 
       expect(status).toBe(200);
     });
