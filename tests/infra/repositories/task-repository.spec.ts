@@ -20,6 +20,7 @@ describe("TaskRepository", () => {
       taskSpy = jest
         .spyOn(prismaClient.task, "create")
         .mockResolvedValueOnce(null as any);
+      
 
       await taskRepository.create({
         summary: "lorem ipsum",
