@@ -179,7 +179,7 @@ export class TaskService {
       }/${date.getDay()}/${date.getFullYear()}`;
     }
 
-    return `Tachnician ${username} his task of id *${updatePaylod.taskId}* at ${
+    return `Tachnician ${username} updated his task of id *${updatePaylod.taskId}* at ${
       date.getMonth() + 1
     }/${date.getDay()}/${date.getFullYear()}`;
   }
