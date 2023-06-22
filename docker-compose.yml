@@ -1,38 +1,11 @@
 version: "3.8"
-
 services:
-  db:
-    image: mysql:8.0
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_USER: techteam
-      MYSQL_PASSWORD: 123456Aa@
-      MYSQL_ROOT_HOST: "%"
-    depends_on:
-      - rabbitmq
-    networks:
-      - mysql
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3.8-management
-    ports:
-      - "15672:15672"
-      - "5672:5672"
-    volumes:
-      - "./.rabbitmq_data:/var/lib/rabbitmq/mnesia"
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=admin
-    networks:
-      - rabbitmq_go_net
   swordhaelth:
     container_name: swordhaelth
     build:
       context: ./
       dockerfile: ./Dockerfile
-    command: "sh -c '/bin/wait-for-it.sh rabbitmq:5672 --timeout=30 -- yarn start'"
+    command: "sh -c '/bin/wait-for-it.sh rabbitmq:${RABBIT_MQ_PORT} --timeout=30 -- yarn start'"
     env_file:
       - .env
     ports:
@@ -42,9 +15,38 @@ services:
     links:
       - rabbitmq
       - db
+    networks:
+      - mysql
+      - rabbitmq_go_net
     depends_on:
       - rabbitmq
       - db
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:${MYSQL_PORT}"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
+    depends_on:
+      - rabbitmq
+    networks:
+      - mysql
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.8-management
+    ports:
+      - "15672:15672"
+      - "5672:${RABBIT_MQ_PORT}"
+    volumes:
+      - "./.rabbitmq_data:/var/lib/rabbitmq/mnesia"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
     networks:
       - rabbitmq_go_net
 
